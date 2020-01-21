@@ -53,7 +53,7 @@ export default {
 	'menu.application.message-analysis': '报文分析',
 	'menu.application.push-log': '推送管理',
 	'menu.statistics': '数据统计',
-	'menu.statistics.traffic-query': '流量详情',
+	'menu.statistics.traffic-details': '流量详情',
 	'menu.statistics.device-analysis': '设备统计',
 	'menu.docs': '开发文档'
 }
