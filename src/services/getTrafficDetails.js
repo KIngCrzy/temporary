@@ -17,11 +17,18 @@ export async function getFakeApi () {
 
 
 export async function getFakeChart (params) {
-	if (params.app_id) {
-		return request(`/api/traffic_statistics/traffic?application_id${params.app_id}&api_id=&=start_time=${params.start_time}&end_time=${params.end_time}`)
+	// if (params.app_id) {
+	// 	return request(`/api/traffic_statistics/traffic?application_id${params.app_id}&api_id=&=start_time=${params.start_time}&end_time=${params.end_time}`)
+
+	// } else {
+	// 	return request(`/api/traffic_statistics/traffic?start_time=${params.start_time}&end_time=${params.end_time}`)
+
+	// }
+	if (params.api_id) {
+		return request(`/api/traffic_statistics/traffic?application_id=${params.app_id}&api_id=${params.api_id}&=start_time=${params.start_time}&end_time=${params.end_time}`)
 
 	} else {
-		return request(`/api/traffic_statistics/traffic?start_time=${params.start_time}&end_time=${params.end_time}`)
+		return request(`/api/traffic_statistics/traffic?application_id=${params.app_id}&api_id=start_time=${params.start_time}&end_time=${params.end_time}`)
 
 	}
 }

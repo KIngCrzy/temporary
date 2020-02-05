@@ -57,10 +57,12 @@ const data = [
 ]
 const cols = {
 	value: {
-		min: 0
+		min: 0,
+		alias:'调用量'
 	},
 	year: {
-		range: [ 0, 1 ]
+		range: [ 0, 1 ],
+		alias:'时间'
 	}
 }
 

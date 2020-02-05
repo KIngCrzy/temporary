@@ -11,11 +11,10 @@ class App extends React.Component {
 		startValue: null,
 		endValue: null,
 		show_select_time: 'false',
-		xAxis: [],
+		xAxis:[],
 	}
 
 	componentWillMount () {
-		this.handlexAxis('hour')
 		this.handlexChartData('hour')
 	}
 
@@ -49,6 +48,8 @@ class App extends React.Component {
 								start_time: this.state.startValue,
 								end_time: this.state.endValue,
 								xAxis: this.state.xAxis,
+								app_id:fieldsValue.app,
+								api_id:fieldsValue.api,
 							}
 						})
 
@@ -60,6 +61,8 @@ class App extends React.Component {
 							start_time: this.state.startValue,
 							end_time: this.state.endValue,
 							xAxis: this.state.xAxis,
+							app_id:fieldsValue.app,
+							api_id:fieldsValue.api,
 						}
 					})
 
@@ -69,41 +72,6 @@ class App extends React.Component {
 	};
 
 
-	handlexAxis = type => {
-		const current_time = moment()
-		let data
-		switch (type) {
-			case 'hour':
-				data = [ moment(current_time).format('HH:mm') ]
-				for (let i = 1; i < 60; i += 1) {
-					data.push(current_time.subtract(1, 'minutes').format('HH:mm'))
-				}
-				break
-			case 'day':
-				data = [ moment(current_time).format('MM-DD HH') ]
-
-				for (let i = 1; i < 24; i += 1) {
-					data.push(current_time.subtract(1, 'hours').format('MM-DD HH'))
-				}
-
-				break
-			case 'week':
-				data = [ moment(current_time).format('DD') ]
-
-				for (let i = 1; i < 7; i += 1) {
-					data.push(current_time.subtract(1, 'days').format('DD'))
-				}
-				break
-			default:
-				break
-		};
-		if (data) {
-			this.setState({
-				xAxis: data.reverse(),
-			})
-		}
-
-	}
 
 	handlexChartData = type => {
 		switch (type) {
@@ -111,12 +79,14 @@ class App extends React.Component {
 				this.setState({
 					startValue: moment().subtract(1, 'hours').format('X'),
 					endValue: moment().format('X'),
+					xAxis:'hour'
 				})
 				break
 			case 'day':
 				this.setState({
 					startValue: moment().subtract(1, 'days').format('X'),
 					endValue: moment().format('X'),
+					xAxis:'day'
 
 				})
 				break
@@ -124,6 +94,7 @@ class App extends React.Component {
 				this.setState({
 					startValue: moment().subtract(1, 'weeks').format('X'),
 					endValue: moment().format('X'),
+					xAxis:'week'
 
 				})
 				break
@@ -137,7 +108,6 @@ class App extends React.Component {
 		this.props.form.setFieldsValue({
 			//note: `Hi, ${value === 'male' ? 'man' : 'lady'}!`,
 		})
-		this.handlexAxis(value)
 		this.handlexChartData(value)
 
 		if (value === 'others') {
@@ -174,6 +144,7 @@ class App extends React.Component {
 		this.setState({
 			[ field ]: value,
 		})
+		console.log(value)
 	};
 
 	onStartChange = value => {
@@ -202,7 +173,7 @@ class App extends React.Component {
 			>
 				<Form.Item label="应用">
 					{getFieldDecorator('app', {
-						initialValue: this.props.traffic.app.data[ 0 ].name,
+						initialValue: this.props.traffic.app.data[ 0 ].id,
 						rules: [
 							{
 								message: 'Please select your gender!',
@@ -214,7 +185,7 @@ class App extends React.Component {
 						>
 							{this.props.traffic.app.data.map(item => {
 								return (
-									<Option key={item.name} value={item.name}>{item.name}</Option>
+									<Option key={item.id} value={item.id}>{item.name}</Option>
 								)
 							})}
 						</Select>,
@@ -223,7 +194,7 @@ class App extends React.Component {
 
 				<Form.Item label="接口">
 					{getFieldDecorator('api', {
-						initialValue: this.props.traffic.api.data[ 0 ].name,
+						// initialValue: this.props.traffic.api.data[ 0 ].name,
 						rules: [
 							{
 								message: 'Please input your note!',
@@ -231,12 +202,12 @@ class App extends React.Component {
 						],
 					})(
 						<Select style={{ width: '250px' }}
-							placeholder="Select a option and change input text above"
+							// placeholder="Select a option and change input text above"
 							onChange={this.handleSelectChange}
 						>
 							{this.props.traffic.api.data.map(item => {
 								return (
-									<Option key={item.name} value={item.name}>{item.name}</Option>
+									<Option key={item.id} value={item.id}>{item.name}</Option>
 								)
 							})}
 						</Select>,
